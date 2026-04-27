@@ -224,10 +224,10 @@ class YarsRevengeConstants(PyTreeNode):
     QOTILE_SPEED: float = 0.5  # slow vertical oscillation of qotile
     YAR_SPEED: float = 2.0  # horizontal move speed
     YAR_DIAGONAL_SPEED: float = (
-        1.0  # diagonal movement is slower to preserve overall speed
+        1.5  # diagonal movement is slower to preserve overall speed
     )
-    SWIRL_SPEED: float = 3.0  # swirl target following speed
-    DESTROYER_SPEED: float = 0.125  # very slow chase of Yar
+    SWIRL_SPEED: float = 4.0  # swirl target following speed
+    DESTROYER_SPEED: float = 0.2  # very slow chase of Yar
     ENERGY_MISSILE_SPEED: float = 4.0  # fast missile from cannon or YAR
     CANNON_SPEED: float = 2.0  # horizontal cannon movement
     SNAKE_FRAME: float = 4  # snake shift applied every 4 steps in stage-1
