@@ -214,15 +214,15 @@ class YarsRevengeConstants(PyTreeNode):
     # Special coordinates
     QOTILE_MIN_Y: int = 60  # lower bound for qotile vertical movement
     QOTILE_MAX_Y: int = 150  # upper bound for qotile vertical movement
-    NEUTRAL_ZONE_POSITION: Tuple[int, int] = (50, 0)  # top-left corner of neutral zone
+    NEUTRAL_ZONE_POSITION: Tuple[int, int] = (52, 0)  # top-left corner of neutral zone
 
     # Timers / periodic behaviour
-    SWIRL_PER_STEP: int = 1000  # steps between swirl spawns
+    SWIRL_PER_STEP: int = 1024  # steps between swirl spawns
     SWIRL_FIRE_PER_STEP: int = 250  # steps between swarm firing
 
     # Speeds (pixels per frame)
     QOTILE_SPEED: float = 0.5  # slow vertical oscillation of qotile
-    YAR_SPEED: float = 2.0  # horizontal move speed
+    YAR_SPEED: float = 2.0  # move speed
     YAR_DIAGONAL_SPEED: float = (
         1.5  # diagonal movement is slower to preserve overall speed
     )
@@ -919,7 +919,7 @@ class JaxYarsRevenge(
         dy = jnp.sign(yar_center_y - state.destroyer.y)
 
         x = state.destroyer.x + self.consts.DESTROYER_SPEED * dx
-        y = state.destroyer.y + self.consts.DESTROYER_SPEED * dy
+        y = state.destroyer.y + (self.consts.DESTROYER_SPEED * 2) * dy
 
         return dict(destroyer=state.destroyer.replace(x=x, y=y))
 
@@ -1080,7 +1080,7 @@ class JaxYarsRevenge(
         new_energy_missile_x = jnp.clip(
             jnp.where(
                 em_exists,
-                state.energy_missile.x + energy_missile_dx,
+                state.energy_missile.x + (energy_missile_dx),
                 self._get_entity_position(state.yar, Direction._CENTER)[0],
             ),
             0,
@@ -1121,7 +1121,7 @@ class JaxYarsRevenge(
         swirl_exists = state.swirl_exist == 1
         swirl_fired = jnp.logical_or(state.swirl_dx != 0, state.swirl_dy != 0)
 
-        should_spawn_swirl = state.step_counter % self.consts.SWIRL_PER_STEP == 0
+        should_spawn_swirl = state.step_counter % self.consts.SWIRL_PER_STEP == 52
         swirl_hit_boundary = self._check_entity_boundary(state.swirl)
 
         new_swirl_exists = jnp.logical_or(
